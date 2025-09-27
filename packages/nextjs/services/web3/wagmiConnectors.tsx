@@ -14,11 +14,11 @@ import scaffoldConfig from "~~/scaffold.config";
 const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 
 const wallets = [
-  metaMaskWallet,
   walletConnectWallet,
-  ledgerWallet,
+  metaMaskWallet,
   coinbaseWallet,
   rainbowWallet,
+  ledgerWallet,
   safeWallet,
   ...(!targetNetworks.some(network => network.id !== (chains.hardhat as chains.Chain).id) || !onlyLocalBurnerWallet
     ? [rainbowkitBurnerWallet]
@@ -31,13 +31,20 @@ const wallets = [
 export const wagmiConnectors = connectorsForWallets(
   [
     {
-      groupName: "Supported Wallets",
-      wallets,
+      groupName: "WalletConnect Wallets",
+      wallets: [walletConnectWallet],
+    },
+    {
+      groupName: "Other Wallets",
+      wallets: wallets.filter(wallet => wallet !== walletConnectWallet),
     },
   ],
 
   {
-    appName: "scaffold-eth-2",
+    appName: "Decentralized Staking App",
     projectId: scaffoldConfig.walletConnectProjectId,
+    appDescription: "A decentralized staking application built with Scaffold-ETH 2",
+    appUrl: "https://staking-app.vercel.app",
+    appIcon: "https://staking-app.vercel.app/icon.png",
   },
 );
